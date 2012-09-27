@@ -1,13 +1,14 @@
 import os
 from setuptools import setup, find_packages
 
-version = '2'
-README = os.path.join(os.path.dirname(__file__), 'README')
+README = os.path.join(os.path.dirname(__file__), 'README.md')
 long_description = 'Command line client for making API calls.'
+
+import bsdapi
 
 setup(
     name='bsdapi',
-    version=version,
+    version=bsdapi.__version__,
     description=long_description,
     author='Scott Frazer',
     author_email='sfrazer@bluestatedigital.com',
