@@ -5,17 +5,22 @@ try:
 except ImportError:
     import urllib
 
-class URL:
+try:
+    urlencode = urllib.urlencode
+except AttributeError:
+    urlencode = urllib.parse.urlencode
 
-    def __init__(self, protocol = 'http', host = 'localhost', path = '/', query = None):
-        self.__dict__.update(locals())
-        try:
-            urlEncodeFunc = urllib.urlencode
-        except AttributeError:
-            urlEncodeFunc = urllib.parse.urlencode
+
+class URL(object):
+
+    def __init__(self, protocol='http', host='localhost', path='/', query=None):
+        self.protocol = protocol
+        self.host = host
+        self.path = path
+        self.query = query
 
         if isinstance(self.query, dict):
-            self.query = urlEncodeFunc(self.query)
+            self.query = urlencode(self.query)
         if self.path[0] != '/':
             self.path = '/' + self.path
 
@@ -25,11 +30,12 @@ class URL:
             url = url + '?' + self.query
         return url
 
-    def getPathAndQuery(self):
+    def get_path_and_query(self):
         url = self.path
         if self.query and len(self.query):
             url = url + '?' + self.query
         return url
+
 
 class TestSequenceFunctions(unittest.TestCase):
 
@@ -63,6 +69,7 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_GenerateProperURLWhenAllParamsArentSet(self):
         url = URL()
         self.assertEqual(str(url), 'http://localhost/')
+
 
 if __name__ == '__main__':
     unittest.main()

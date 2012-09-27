@@ -1,15 +1,16 @@
 import logging
 
-class Factory:
+class Factory(object):
+    """???"""
+
     logMap = {
         'debug': logging.DEBUG,
         'info': logging.INFO,
         'error': logging.ERROR,
         'warning': logging.WARNING,
-        'critical': logging.CRITICAL
-    }
+        'critical': logging.CRITICAL,}
 
-    def create( self, level ):
+    def create(self, level):
         try:
             llevel = self.logMap[level.lower()]
         except KeyError:

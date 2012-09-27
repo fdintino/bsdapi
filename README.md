@@ -63,7 +63,7 @@ First start the shell.
 
 Issue the following command and you should get results similar to what is shown.
 
-    api> print(api.doRequest('/signup/list_forms', {}, api.GET, None))
+    api> print(api.do_request('/signup/list_forms', {}, api.GET, None))
     HTTP/1.1 200 OK
     Date: Tue, 15 Jun 2010 18:21:54 GMT
     Server: Apache/2.0.63 (Unix) mod_ssl/2.0.63 OpenSSL/0.9.7g PHP/5.2.6
@@ -98,24 +98,23 @@ from StringIO import StringIO
 from bsdapi.BsdApi import Factory as BsdApiFactory
 
 api = BsdApiFactory().create(
-    id = 'sfrazer',
-    secret = '8c0c28988dba57865bc8f6d6aa7de7230cfa42d6',
-    host = 'sandgate.bluestatedigital.com',
-    port = 8174,
-    securePort = 9174
-)
+    id='sfrazer',
+    secret='8c0c28988dba57865bc8f6d6aa7de7230cfa42d6',
+    host='sandgate.bluestatedigital.com',
+    port=8174,
+    secure_port=9174)
 
-apiResult = api.signup_listForms()
-tree = ElementTree().parse( StringIO(apiResult.body) )
+api_result = api.signup_list_forms()
+tree = ElementTree().parse( StringIO(api_result.body) )
 
 print('All Signup Forms:')
-for index, signupForm in enumerate(tree.findall('signup_form')):
-        print('%d.  %s' % (index+1, signupForm.find('signup_form_name').text))
+for index, signup_form in enumerate(tree.findall('signup_form')):
+        print('%d.  %s' % (index+1, signup_form.find('signup_form_name').text))
 ```
 
 Raw API Method
 --------------
-To issue a raw API request use the `api.doRequest` method, which will always return a `ApiResult` object. This method accepts 4 parameters as listed below:
+To issue a raw API request use the `api.do_request` method, which will always return a `ApiResult` object. This method accepts 4 parameters as listed below:
 
 * **api_call**
 
@@ -163,7 +162,7 @@ First start the shell.
 
 Issue the following command and you should get results similar to what is shown.
 
-    api> print(api.signup_listForms())
+    api> print(api.signup_list_forms())
     HTTP/1.1 200 OK
     Date: Tue, 15 Jun 2010 18:21:54 GMT
     Server: Apache/2.0.63 (Unix) mod_ssl/2.0.63 OpenSSL/0.9.7g PHP/5.2.6
@@ -192,60 +191,60 @@ API Helper Methods Documentation
 The following methods are available for use. All methods return a `BsdApiResults` object unless noted otherwise.
 
 * **Constituent (cons) API Calls**
-    * `cons_getConstituents(filter, bundles=None)`
-    * `cons_getConstituentsById(cons_ids, filter=None, bundles=None)`
-    * `cons_getConstituentsByExtId(ext_type, ext_ids, filter=None, bundles=None)`
-    * `cons_getUpdatedConstituents(changed_since, filter=None, bundles=None)`
-    * `cons_setExtIds(ext_type, cons_id__ext_id)`
-    * `cons_deleteConstituentsById(cons_ids)`
-    * `cons_getBulkConstituentData(format, fields, cons_ids=None, filter=None)`
-    * `cons_setConstituentData(xml_data)`
+    * `cons_get_constituents(filter, bundles=None)`
+    * `cons_get_constituents_by_id(cons_ids, filter=None, bundles=None)`
+    * `cons_get_constituents_by_ext_id(ext_type, ext_ids, filter=None, bundles=None)`
+    * `cons_get_updated_constituents(changed_since, filter=None, bundles=None)`
+    * `cons_set_ext_ids(ext_type, cons_id__ext_id)`
+    * `cons_delete_constituents_by_id(cons_ids)`
+    * `cons_get_bulk_constituent_data(format, fields, cons_ids=None, filter=None)`
+    * `cons_set_constituent_data(xml_data)`
 * **Constituent Group (cons_group) API Calls**
-    * `cons_group_listConstituentGroups()`
-    * `cons_group_getConstituentGroup(cons_group_id)`
-    * `cons_group_addConstituentGroup(xml_data)`
-    * `cons_group_deleteConstituentGroup(cons_group_ids)`
-    * `cons_group_getConsIdsForGroup(cons_group_id)`
-    * `cons_group_getExtIdsForGroup(cons_group_id, ext_type)`
-    * `cons_group_setExtIdsForGroup(cons_group_id, ext_type, ext_ids)`
-    * `cons_group_addConsIdsToGroup(cons_group_id, cons_ids)`
-    * `cons_group_addExtIdsToGroup(cons_group_id, ext_type, ext_ids)`
-    * `cons_group_removeConsIdsToGroup(cons_group_id, cons_ids)`
-    * `cons_group_removeExtIdsToGroup(cons_group_id, ext_type, ext_ids)`
+    * `cons_group_list_constituent_groups()`
+    * `cons_group_get_constituent_group(cons_group_id)`
+    * `cons_group_add_constituent_group(xml_data)`
+    * `cons_group_delete_constituent_group(cons_group_ids)`
+    * `cons_group_get_cons_ids_for_group(cons_group_id)`
+    * `cons_group_get_ext_ids_for_group(cons_group_id, ext_type)`
+    * `cons_group_set_ext_ids_for_group(cons_group_id, ext_type, ext_ids)`
+    * `cons_group_add_cons_ids_to_group(cons_group_id, cons_ids)`
+    * `cons_group_add_ext_ids_to_group(cons_group_id, ext_type, ext_ids)`
+    * `cons_group_remove_cons_ids_to_group(cons_group_id, cons_ids)`
+    * `cons_group_remove_ext_ids_to_group(cons_group_id, ext_type, ext_ids)`
 * **Circle (circle) API Calls**
-    * `circle_listCircles(circle_type=None, state_cd=None)`
-    * `circle_getConsIdsForCircle(circle_id)`
-    * `circle_getExtIdsForCircle(circle_id, ext_type)`
-    * `circle_setConsIdsForCircle(circle_id, cons_ids)`
-    * `circle_setExtIdsForCircle(circle_id, ext_type, ext_ids)`
-    * `circle_addConsIdsForCircle(circle_id, cons_ids)`
-    * `circle_addExtIdsForCircle(circle_id, ext_type, ext_ids)`
-    * `circle_removeConsIdsForCircle(circle_id, cons_ids)`
-    * `circle_removeExtIdsForCircle(circle_id, ext_type, ext_ids)`
-    * `circle_moveConsIdsForCircle(from_circle_id, to_circle_id, cons_ids)`
-    * `circle_moveExtIdsForCircle(from_circle_id, to_circle_id, ext_type, ext_ids)`
-    * `circle_setCircleAdministrator(circle_id, cons_id)`
-    * `circle_demoteCircleAdministrator(circle_id, cons_id)`
-    * `circle_setCircleOwner(circle_id, cons_id)`
+    * `circle_list_circles(circle_type=None, state_cd=None)`
+    * `circle_get_cons_ids_for_circle(circle_id)`
+    * `circle_get_ext_ids_for_circle(circle_id, ext_type)`
+    * `circle_set_cons_ids_for_circle(circle_id, cons_ids)`
+    * `circle_set_ext_ids_for_circle(circle_id, ext_type, ext_ids)`
+    * `circle_add_cons_ids_for_circle(circle_id, cons_ids)`
+    * `circle_add_ext_ids_for_circle(circle_id, ext_type, ext_ids)`
+    * `circle_remove_cons_ids_for_circle(circle_id, cons_ids)`
+    * `circle_remove_ext_ids_for_circle(circle_id, ext_type, ext_ids)`
+    * `circle_move_cons_ids_for_circle(from_circle_id, to_circle_id, cons_ids)`
+    * `circle_move_ext_ids_for_circle(from_circle_id, to_circle_id, ext_type, ext_ids)`
+    * `circle_set_circle_administrator(circle_id, cons_id)`
+    * `circle_demote_circle_administrator(circle_id, cons_id)`
+    * `circle_set_circle_owner(circle_id, cons_id)`
 * **Signup (signup) API Calls**
-    * `signup_listForms()`
-    * `signup_listFormFields(signup_form_id)`
-    * `signup_signupCount(signup_form_id, signup_form_field_ids=None)`
-    * `signup_countByField(signup_form_id, signup_form_field_id)`
+    * `signup_list_forms()`
+    * `signup_list_form_fields(signup_form_id)`
+    * `signup_signup_count(signup_form_id, signup_form_field_ids=None)`
+    * `signup_count_by_field(signup_form_id, signup_form_field_id)`
     * `signup_form_id, signup_form_field_id`
 * **Outreach (outreach) API Calls**
-    * `outreach_getPageById(outreach_page_id)`
-    * `outreach_setPageData(xml_data)`
+    * `outreach_get_page_by_id(outreach_page_id)`
+    * `outreach_set_page_data(xml_data)`
 * **Wrappers (wrappers) API Calls**
-    * `wrappers_listWrappers()`
+    * `wrappers_list_wrappers()`
 * **VAN API Calls**
 * **VAN Campaign API Calls**
 * **Account API Calls**
-    * `account_checkCredentials(userid, password)`
-    * `account_createAccount(email, password, firstname, lastname, zip)`
-    * `account_resetPassword(userid)`
-    * `account_setPassword(userid, password)`
+    * `account_check_credentials(userid, password)`
+    * `account_create_account(email, password, firstname, lastname, zip)`
+    * `account_reset_password(userid)`
+    * `account_set_password(userid, password)`
 * **Deferred Results API Calls**
-    * `getDeferredResults(deferred_id)`
+    * `get_deferred_results(deferred_id)`
 * **Event RSVP API Calls**
     * `event_rsvp_list(event_id)`

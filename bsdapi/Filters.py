@@ -1,4 +1,8 @@
-class Filters:
+class FilterError(Exception):
+    pass
+
+
+class Filters(object):
 
     def __init__(self, filters):
         self.filters = filters
